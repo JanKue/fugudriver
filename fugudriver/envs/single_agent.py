@@ -13,9 +13,12 @@ class FuguSingleAgent(gym.Env):
     A single-agent environment wrapping a PufferDrive environment.
     """
     def __init__(self, pd_config: Dict):
+        """
+        :param pd_config: Config parameters for underlying PufferDrive env
+        """
         super().__init__()
         if (na := pd_config.get("num_agents", 0) != 1):
-            # log warning
+            print(f"Overriding num_agents from {na} to 1 for single-agent environment.")
             pd_config["num_agents"] = 1
         self.drive_env = Drive(**pd_config)
 
