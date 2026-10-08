@@ -1,11 +1,11 @@
 """Multi-agent environments."""
 
-from typing import Any, Dict, Tuple
+from typing import Dict, Tuple
 
 import gymnasium as gym
 import numpy as np
 from ray.rllib.env.multi_agent_env import MultiAgentEnv
-from ray.rllib.utils.typing import MultiAgentDict, AgentID
+from ray.rllib.utils.typing import MultiAgentDict
 from pufferlib.spaces import joint_space
 from pufferlib.ocean.drive.drive import Drive
 
@@ -13,6 +13,8 @@ from pufferlib.ocean.drive.drive import Drive
 class FuguMultiAgent(MultiAgentEnv):
     """
     A RLlib MultiAgentEnv wrapping a PufferDrive environment.
+
+    Compatible with both old and new RLlib API stacks.
     """
     def __init__(self, pd_config: Dict):
         """
@@ -28,9 +30,11 @@ class FuguMultiAgent(MultiAgentEnv):
         self.drive_env.single_observation_space = gym.spaces.Box(-2, 2, (self.drive_env.num_obs,), dtype=np.float32)
         self.drive_env.observation_space = joint_space(self.drive_env.single_observation_space, self.drive_env.num_agents)
 
-        # RLlib OldAPIStack compatibility
+        # RLlib @OldAPIStack compatibility
         self._agent_ids = set(range(n_agents))
-        # end OldAPIStack section
+        self.observation_space = gym.spaces.Dict({aid: self.drive_env.single_observation_space for aid in self._agent_ids})
+        self.action_spaces = gym.spaces.Dict({aid: self.drive_env.single_action_space for aid in self._agent_ids})
+        # end @OldAPIStack section
 
         # RLlib new API
         self.possible_agents = list(range(n_agents))
