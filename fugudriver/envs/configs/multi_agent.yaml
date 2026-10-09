@@ -1,0 +1,47 @@
+# Config for the underlying PufferDrive environment
+pd_config:
+  # Also refer to pufferlib/config/ocean/drive.ini
+  # https://emerge-lab.github.io/PufferDrive/simulator.html
+
+  # Multi-agent
+  num_agents: 8
+
+  # Reward & goal parameters
+  goal_behavior: 2 # 0=respawn, 1=multi-goal, 2=stop
+  goal_target_distance: 30.0
+  goal_radius: 2.0
+  goal_speed: 100.0
+  ## The following settings are actually ignored in favor of the settings in drive.ini
+  collision_behavior: 0
+  offroad_behavior: 0
+  reward_vehicle_collision: -1.0
+  reward_offroad_collision: -1.0
+  reward_goal: 1.0
+  reward_goal_post_respawn: 0.25
+  ## end of ignored settings
+
+  # General environment parameters
+  episode_length: 91 # use 91 (Waymo episode length) for single goal
+  init_steps: 0
+  dt: 0.1
+  resample_frequency: 910 # resample map after this many steps; ideally a multiple of episode_length
+  width: 1280
+  height: 1024
+  num_maps: 100
+
+  # Various mode selections
+  render_mode: 0 # 0 for local display, 1 for headless rendering to video (https://emerge-lab.github.io/PufferDrive/visualizer.html)
+  action_type: "discrete" # discrete or continuous # MUST match what is set in drive.ini
+  dynamics_model: "classic" # classic or jerk # MUST match what is set in drive.ini
+  init_mode: "create_only_controlled" # create_all_valid or create_only_controlled
+  control_mode: "control_sdc_only" # control_vehicles or control_agents or control_wosac or control_sdc_only
+  termination_mode: 0 # ignored in favor of setting from drive.ini
+
+  # Other parameters
+  buf: null
+  seed: 42 # for RNGs
+  report_interval: 1 # aka logging interval
+  human_agent_idx: 0
+  max_controlled_agents: -1 # unsupported param
+  map_dir: "resources/drive/binaries/training" # this is relative to the PufferLib installation directory
+# End of pd_config

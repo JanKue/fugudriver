@@ -1,13 +1,16 @@
+from pathlib import Path
+import yaml
+
 from .envs import FuguSingleAgent
 
 if __name__ == "__main__":
 
-    pd_config = {
-        "num_agents": 1,
-        "episode_length": 91,
-    }
+    parent_path = Path(__file__).parent
+    CONFIG_FILE = "envs/configs/single_agent.yaml"
+    with open(parent_path / CONFIG_FILE) as cf:
+        env_config = yaml.safe_load(cf)
 
-    env = FuguSingleAgent(pd_config=pd_config)
+    env = FuguSingleAgent(**env_config)
 
     for episode in range(10):
         obs, info = env.reset(seed=episode)
