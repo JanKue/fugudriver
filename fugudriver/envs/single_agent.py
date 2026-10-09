@@ -22,10 +22,6 @@ class FuguSingleAgent(gym.Env):
             pd_config["num_agents"] = 1
         self.drive_env = Drive(**pd_config)
 
-        # fix observation space bug
-        self.drive_env.single_observation_space = gym.spaces.Box(-2, 2, (self.drive_env.num_obs,), dtype=np.float32)
-        self.drive_env.observation_space = joint_space(self.drive_env.single_observation_space, self.drive_env.num_agents)
-
 
     @property
     def observation_space(self) -> gym.Space:
