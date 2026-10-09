@@ -17,10 +17,13 @@ class FuguSingleAgent(gym.Env):
         :param pd_config: Config parameters for underlying PufferDrive env
         """
         super().__init__()
-        if (na := pd_config.get("num_agents", 0) != 1):
+
+        self.pd_config = pd_config.copy() # make a copy to avoid modifying the original dict
+        if (na := self.pd_config.get("num_agents", 0) != 1):
             print(f"Overriding num_agents from {na} to 1 for single-agent environment.")
-            pd_config["num_agents"] = 1
-        self.drive_env = Drive(**pd_config)
+            self.pd_config["num_agents"] = 1
+
+        self.drive_env = Drive(**self.pd_config)
 
 
     @property
