@@ -66,7 +66,7 @@ class DefaultSingleAgentModule(TorchRLModule, ValueFunctionAPI):
 
 
     @override(TorchRLModule)
-    def _forward(self, batch):
+    def _forward(self, batch, **kwargs):
         embeddings = self._encode_observations(observations=batch[Columns.OBS])
         action_emb = self.actor(embeddings)
         return {
@@ -103,7 +103,7 @@ class DefaultSingleAgentModule(TorchRLModule, ValueFunctionAPI):
             .view(-1, self.n_road_objects, self.road_features) # [n_batch, n_road_objects, road_features]
         road_continuous = road_obs[..., :-1] # [n_batch, n_road_objects, road_features-1]
         road_categorical = road_obs[..., -1] # [n_batch, n_road_objects, 1]
-        road_onehot = F.one_hot(road_categorical, self.road_n_classes) # [n_batch, n_road_objects, road_n_classes]
+        road_onehot = F.one_hot(road_categorical.long(), self.road_n_classes) # [n_batch, n_road_objects, road_n_classes]
         road_obs_with_onehot = torch.cat([road_continuous, road_onehot], dim=-1) # [n_batch, n_road_objects, road_features_after_onehot]
         road_emb = torch.amax(input=self.road_encoder(road_obs_with_onehot), dim=-2) # max-pool to [n_batch, single_enc_dim]
 
