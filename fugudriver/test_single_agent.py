@@ -6,7 +6,7 @@ from .envs import FuguSingleAgent
 if __name__ == "__main__":
 
     parent_path = Path(__file__).parent
-    CONFIG_FILE = "envs/configs/single_agent.yaml"
+    CONFIG_FILE = "configs/envs/single_agent.yaml"
     with open(parent_path / CONFIG_FILE) as cf:
         env_config = yaml.safe_load(cf)
 

@@ -11,8 +11,8 @@ from .modules import DefaultSingleAgentModule
 
 
 # Set config file paths here (relative paths)
-ENV_CONFIG_FILE = "envs/configs/single_agent.yaml"
-MODEL_TRAIN_CONFIG_FILE = "modules/configs/single_model_training.yaml"
+ENV_CONFIG_FILE = "configs/envs/single_agent.yaml"
+MODEL_TRAIN_CONFIG_FILE = "configs/train/single_model_training.yaml"
 
 if __name__ == "__main__":
     # Load config files
