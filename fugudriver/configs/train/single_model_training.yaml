@@ -34,3 +34,13 @@ training:
   entropy_coeff: 0.0
   clip_param: 0.3
   vf_clip_param: 10.0
+
+# Sets whether to perform a full ray tuner run with the following configs; or otherwise a basic training loop for testing
+run_ray_tuner: True
+tune_config: # ray.tune.TuneConfig parameters
+  num_samples: 1
+run_config: # ray.tune.RunConfig parameters
+  name: null
+  stop:
+    training_iteration: 10
+  verbose: 1

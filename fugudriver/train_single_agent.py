@@ -37,10 +37,17 @@ if __name__ == "__main__":
             .training(**model_train_config["training"])
     )
 
-    print("Building algorithm ...")
-    algo = algo_config.build_algo()
-    print("Start training ...")
-    for _ in range(5):
-        train_result = algo.train()
-        print(pretty_print(train_result))
-    print("Saving model to path:", algo.save_to_path())
+    if model_train_config.get("run_ray_tuner"):
+        tuner = tune.Tuner(
+            trainable=PPO,
+            param_space=algo_config,
+            tune_config=tune.TuneConfig(**model_train_config["tune_config"]),
+            run_config=tune.RunConfig(**model_train_config["run_config"]),
+        )
+        tuner.fit()
+    else:
+        algo = algo_config.build_algo()
+        for _ in range(5):
+            train_result = algo.train()
+            print(pretty_print(train_result))
+        print("Saving model to path:", algo.save_to_path())
