@@ -7,6 +7,7 @@ import torch.nn.functional as F
 from ray.rllib.core.rl_module.torch import TorchRLModule
 from ray.rllib.core.rl_module.apis import ValueFunctionAPI
 from ray.rllib.core.columns import Columns
+from ray.rllib.core.distribution.torch.torch_distribution import TorchMultiCategorical
 from ray.rllib.utils.annotations import override
 
 
@@ -32,7 +33,8 @@ class DefaultSingleAgentModule(TorchRLModule, ValueFunctionAPI):
         if self.action_is_continuous:
             self.action_dim = self.action_space.shape[0] * 2
         else:
-            self.action_dim = ... # TODO: handle discrete actions
+            self.action_dim = self.action_space.nvec[0]
+            self.action_dist_cls = TorchMultiCategorical.get_partial_dist_cls(space=self.action_space, input_lens=[self.action_dim])
 
         # Define encoder submodules
         self.ego_encoder = nn.Sequential(
