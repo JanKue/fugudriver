@@ -1,10 +1,6 @@
 """Single-agent environments."""
 
-from typing import Dict
-
 import gymnasium as gym
-import numpy as np
-from pufferlib.spaces import joint_space
 from pufferlib.ocean.drive.drive import Drive
 
 
@@ -12,7 +8,7 @@ class FuguSingleAgent(gym.Env):
     """
     A single-agent environment wrapping a PufferDrive environment.
     """
-    def __init__(self, pd_config: Dict):
+    def __init__(self, pd_config: dict):
         """
         :param pd_config: Config parameters for underlying PufferDrive env
         """

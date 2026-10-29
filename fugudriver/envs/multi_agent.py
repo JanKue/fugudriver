@@ -1,13 +1,10 @@
 """Multi-agent environments."""
 
-from typing import Dict, Tuple
-
 import gymnasium as gym
 import numpy as np
+from pufferlib.ocean.drive.drive import Drive
 from ray.rllib.env.multi_agent_env import MultiAgentEnv
 from ray.rllib.utils.typing import MultiAgentDict
-from pufferlib.spaces import joint_space
-from pufferlib.ocean.drive.drive import Drive
 
 
 class FuguMultiAgent(MultiAgentEnv):
@@ -16,7 +13,7 @@ class FuguMultiAgent(MultiAgentEnv):
 
     Compatible with both old and new RLlib API stacks.
     """
-    def __init__(self, pd_config: Dict):
+    def __init__(self, pd_config: dict):
         """
         :param pd_config: Config parameters for underlying PufferDrive env
         """
@@ -47,7 +44,7 @@ class FuguMultiAgent(MultiAgentEnv):
         return self.drive_env.single_action_space
 
 
-    def reset(self, seed=None, options=None) -> Tuple[MultiAgentDict, MultiAgentDict]:
+    def reset(self, seed=None, options=None) -> tuple[MultiAgentDict, MultiAgentDict]:
         super().reset(seed=seed, options=options)
         _obs, _ = self.drive_env.reset(seed=(seed if seed is not None else 0)) # Note: PD always returns empty info from reset
         # Convert obs to MultiAgentDict
@@ -55,7 +52,7 @@ class FuguMultiAgent(MultiAgentEnv):
         return obs, {}
 
 
-    def step(self, action_dict: MultiAgentDict) -> Tuple[MultiAgentDict, MultiAgentDict, MultiAgentDict, MultiAgentDict, MultiAgentDict]:
+    def step(self, action_dict: MultiAgentDict) -> tuple[MultiAgentDict, MultiAgentDict, MultiAgentDict, MultiAgentDict, MultiAgentDict]:
         actions = np.array(list(action_dict.values()))
         _obs, _rewards, _terms, _truncs, _infos = self.drive_env.step(actions)
         # Convert outputs to MultiAgentDicts

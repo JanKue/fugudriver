@@ -2,13 +2,13 @@
 
 import gymnasium as gym
 import torch
-from torch import nn
 import torch.nn.functional as F
-from ray.rllib.core.rl_module.torch import TorchRLModule
-from ray.rllib.core.rl_module.apis import ValueFunctionAPI
 from ray.rllib.core.columns import Columns
 from ray.rllib.core.distribution.torch.torch_distribution import TorchMultiCategorical
+from ray.rllib.core.rl_module.apis import ValueFunctionAPI
+from ray.rllib.core.rl_module.torch import TorchRLModule
 from ray.rllib.utils.annotations import override
+from torch import nn
 
 
 class DefaultSingleAgentModule(TorchRLModule, ValueFunctionAPI):

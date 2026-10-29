@@ -1,6 +1,7 @@
 from pathlib import Path
-import yaml
+
 import ray
+import yaml
 from ray import tune
 from ray.rllib.algorithms.ppo import PPO, PPOConfig
 from ray.rllib.core.rl_module.rl_module import RLModuleSpec
@@ -8,7 +9,6 @@ from ray.tune.logger import pretty_print
 
 from .envs import FuguSingleAgent
 from .modules import DefaultSingleAgentModule
-
 
 # Set config file paths here (relative paths)
 ENV_CONFIG_FILE = "configs/envs/single_agent.yaml"
