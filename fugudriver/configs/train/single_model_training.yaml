@@ -5,14 +5,14 @@ rl_module:
 
 # Inputs to AlgorithmConfig builder methods; see RLlib documentation for possible settings
 env_runners:
-  num_env_runners: 0
+  num_env_runners: 4
   num_cpus_per_env_runner: 1
   num_envs_per_env_runner: 1
   batch_mode: "truncate_episodes"
   rollout_fragment_length: 91 # if not 'auto', might be overriden and set to episode length
 learners:
   num_learners: 0
-  num_gpus_per_learner: 0 # activate GPUs by setting this to >0
+  num_gpus_per_learner: 1 # activate GPUs by setting this to >0
   num_cpus_per_learner: "auto" # 'auto' -> only use CPU if GPU is not enabled
 training:
   # General settings
